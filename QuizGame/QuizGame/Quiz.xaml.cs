@@ -23,16 +23,31 @@ namespace QuizGame
         private List<Quiz> _quizList = new List<Quiz>();
         private Quiz _currentQuiz;
         private int _currentQuizIndex;
+        private List<RadioButton> radioButtons = new List<RadioButton>();
 
         public MainWindow()
         {
             InitializeComponent();
             MakeQuizList();
+            BindRadioButtons();
             ShowNextQuiz();
+        }
+
+        private void BindRadioButtons()
+        {
+            radioButtons.Add(RadioAnswer1);
+            radioButtons.Add(RadioAnswer2);
+            radioButtons.Add(RadioAnswer3);
+            radioButtons.Add(RadioAnswer4);
         }
 
         private void ShowNextQuiz()
         {
+            foreach (var radioButton in radioButtons)
+            {
+                radioButton.IsChecked = false;
+            }
+
             if (_currentQuizIndex == _quizList.Count - 1)
             {
                 MessageBox.Show("다 풀었습니다.");
@@ -53,8 +68,8 @@ namespace QuizGame
 
         private void MakeQuizList()
         {
-            _quizList.Add(new Quiz("1+1 =? ", 0, new List<string>() { "2", "3", "4", "5" }));
-            _quizList.Add(new Quiz("2+3 =? ", 1, new List<string>() { "4", "5", "6", "코와붕가!" }));
+            _quizList.Add(new Quiz("1+1 =? ", 1, new List<string>() { "2", "3", "4", "5" }));
+            _quizList.Add(new Quiz("2+3 =? ", 2, new List<string>() { "4", "5", "6", "코와붕가!" }));
         }
 
         private void NextQuizButton_Click(object sender, RoutedEventArgs e)
@@ -64,21 +79,25 @@ namespace QuizGame
 
         private void RadioAnswer1_Checked(object sender, RoutedEventArgs e)
         {
+            RadioAnswer1.IsChecked = true;
             CheckQuiz(_currentQuiz, 1);
         }
 
         private void RadioAnswer2_Checked(object sender, RoutedEventArgs e)
         {
+            RadioAnswer2.IsChecked = true;
             CheckQuiz(_currentQuiz, 2);
         }
 
         private void RadioAnswer3_Checked(object sender, RoutedEventArgs e)
         {
+            RadioAnswer3.IsChecked = true;
             CheckQuiz(_currentQuiz, 3);
         }
 
         private void RadioAnswer4_Checked(object sender, RoutedEventArgs e)
         {
+            RadioAnswer4.IsChecked = true;
             CheckQuiz(_currentQuiz, 4);
         }
 
