@@ -48,7 +48,7 @@ namespace QuizGame
                 radioButton.IsChecked = false;
             }
 
-            if (_currentQuizIndex == _quizList.Count - 1)
+            if (_currentQuizIndex >= _quizList.Count)
             {
                 MessageBox.Show("다 풀었습니다.");
             }
@@ -70,6 +70,7 @@ namespace QuizGame
         {
             _quizList.Add(new Quiz("1+1 =? ", 1, new List<string>() { "2", "3", "4", "5" }));
             _quizList.Add(new Quiz("2+3 =? ", 2, new List<string>() { "4", "5", "6", "코와붕가!" }));
+            _quizList.Add(new Quiz("아빠가 좋아 엄마가 좋아? ", 1, new List<string>() { "아빠", "형", "동생", "옆집아저씨" }));
         }
 
         private void NextQuizButton_Click(object sender, RoutedEventArgs e)
@@ -111,6 +112,7 @@ namespace QuizGame
             {
                 MessageBox.Show("틀렸습니다. ㅠㅠ");
             }
+            ShowNextQuiz();
         }
     }
 
