@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -31,6 +32,7 @@ namespace QuizGame
             MakeQuizList();
             BindRadioButtons();
             ShowNextQuiz();
+            GetQuizFromGoogleSpreadSheet();
         }
 
         private void BindRadioButtons()
@@ -64,6 +66,14 @@ namespace QuizGame
 
                 _currentQuizIndex++;
             }
+        }
+
+        private void GetQuizFromGoogleSpreadSheet()
+        {
+            string url = "https://spreadsheets.google.com/feeds/list/1Ex3SLxf_wYMNum9hzJmV_XcfQP4U4t3DYYT8qhKl0Jk/od6/public/values?alt=json";
+            WebClient webClient = new WebClient();
+            string json = webClient.DownloadString(url);
+            Console.WriteLine(json);
         }
 
         private void MakeQuizList()
