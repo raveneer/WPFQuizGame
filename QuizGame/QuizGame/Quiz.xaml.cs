@@ -72,6 +72,7 @@ namespace QuizGame
         {
             string url = "https://spreadsheets.google.com/feeds/list/1Ex3SLxf_wYMNum9hzJmV_XcfQP4U4t3DYYT8qhKl0Jk/od6/public/values?alt=json";
             WebClient webClient = new WebClient();
+            webClient.Encoding = Encoding.UTF8;
             string json = webClient.DownloadString(url);
             Console.WriteLine(json);
         }
