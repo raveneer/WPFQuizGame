@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -33,7 +34,6 @@ namespace QuizGame
             MakeQuizList();
             BindRadioButtons();
             ShowNextQuiz();
-            GetQuizFromGoogleSpreadSheet();
         }
 
         private void BindRadioButtons()
@@ -59,7 +59,7 @@ namespace QuizGame
             {
                 _currentQuiz = _quizList[_currentQuizIndex];
 
-                QuizTitle.Text = _currentQuiz.Title;
+                QuizTitle.Text = _currentQuiz.Question;
                 RadioAnswer1.Content = _currentQuiz.Answers[0];
                 RadioAnswer2.Content = _currentQuiz.Answers[1];
                 RadioAnswer3.Content = _currentQuiz.Answers[2];
@@ -76,17 +76,31 @@ namespace QuizGame
             webClient.Encoding = Encoding.UTF8;
             string json = webClient.DownloadString(url);
             Console.WriteLine(json);
+        }
 
-            //임의 데피니션을 만들어 쉽게 접근한다.
-            var definition = new { Name = "" };
-            var customer2 = JsonConvert.DeserializeAnonymousType(json, definition);
+        private List<Quiz> GetQuizFromCSV()
+        {
+            var quizs = new List<Quiz>();
+            var reader = new CSVReader();
+            var dic = reader.ReadToDic("quiz");
+            foreach (var line in dic)
+            {
+                var title = line.Key;
+                var question = line.Value["Question"].ToString();
+                var answerNumber = int.Parse(line.Value["CollectAnswer"].ToString());
+                var answer1 = line.Value["Answer1"].ToString();
+                var answer2 = line.Value["Answer2"].ToString();
+                var answer3 = line.Value["Answer3"].ToString();
+                var answer4 = line.Value["Answer4"].ToString();
+                var newQuiz = new Quiz(title, question, answerNumber, new List<string>() { answer1, answer2, answer3, answer4 });
+                quizs.Add(newQuiz);
+            }
+            return quizs;
         }
 
         private void MakeQuizList()
         {
-            _quizList.Add(new Quiz("1+1 =? ", 1, new List<string>() { "2", "3", "4", "5" }));
-            _quizList.Add(new Quiz("2+3 =? ", 2, new List<string>() { "4", "5", "6", "코와붕가!" }));
-            _quizList.Add(new Quiz("아빠가 좋아 엄마가 좋아? ", 1, new List<string>() { "아빠", "형", "동생", "옆집아저씨" }));
+            _quizList = GetQuizFromCSV();
         }
 
         private void NextQuizButton_Click(object sender, RoutedEventArgs e)
@@ -135,12 +149,14 @@ namespace QuizGame
     public class Quiz
     {
         public string Title { get; }
+        public string Question { get; }
         public int AnswerNumber { get; }
         public List<string> Answers = new List<string>();
 
-        public Quiz(string title, int answerNumber, List<string> answers)
+        public Quiz(string title, string question, int answerNumber, List<string> answers)
         {
             Title = title;
+            Question = question;
             AnswerNumber = answerNumber;
             Answers = answers;
         }
