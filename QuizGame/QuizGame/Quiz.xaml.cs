@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Newtonsoft.Json;
 
 namespace QuizGame
 {
@@ -75,6 +76,10 @@ namespace QuizGame
             webClient.Encoding = Encoding.UTF8;
             string json = webClient.DownloadString(url);
             Console.WriteLine(json);
+
+            //임의 데피니션을 만들어 쉽게 접근한다.
+            var definition = new { Name = "" };
+            var customer2 = JsonConvert.DeserializeAnonymousType(json, definition);
         }
 
         private void MakeQuizList()
