@@ -34,6 +34,9 @@ namespace QuizGame
             MakeQuizList();
             BindRadioButtons();
             ShowNextQuiz();
+
+            //GetQuizFromFile();
+            GetQuizStringFromGoogleSpreadSheetWithCSV();
         }
 
         private void BindRadioButtons()
@@ -69,7 +72,7 @@ namespace QuizGame
             }
         }
 
-        private void GetQuizFromGoogleSpreadSheet()
+        private void GetQuizFromGoogleSpreadSheetWithJson()
         {
             string url = "https://spreadsheets.google.com/feeds/list/1Ex3SLxf_wYMNum9hzJmV_XcfQP4U4t3DYYT8qhKl0Jk/od6/public/values?alt=json";
             WebClient webClient = new WebClient();
@@ -78,11 +81,37 @@ namespace QuizGame
             Console.WriteLine(json);
         }
 
+        private string GetQuizStringFromGoogleSpreadSheetWithCSV()
+        {
+            string url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSd_w5ZOlUaNOWKVG7vNDGOrUMS5VdoUm_XMIh-cp0tFS4cSV-3UUl2NDB6pQh74V03rlTpMaLeOTpH/pub?output=csv";
+            WebClient webClient = new WebClient();
+            webClient.Encoding = Encoding.UTF8;
+            string csv = webClient.DownloadString(url);
+            Console.WriteLine(csv);
+            return csv;
+        }
+
         private List<Quiz> GetQuizFromCSV()
         {
             var quizs = new List<Quiz>();
             var reader = new CSVReader();
-            var dic = reader.ReadToDic("quiz");
+            var scvString = GetQuizStringFromGoogleSpreadSheetWithCSV();
+            var dic = reader.ReadToDicFromString(scvString);
+            MakeQuizDic(quizs, dic);
+            return quizs;
+        }
+
+        private List<Quiz> GetQuizFromFile()
+        {
+            var quizs = new List<Quiz>();
+            var reader = new CSVReader();
+            var dic = reader.ReadToDicFromFile("quiz");
+            MakeQuizDic(quizs, dic);
+            return quizs;
+        }
+
+        private static void MakeQuizDic(List<Quiz> quizs, Dictionary<string, Dictionary<string, object>> dic)
+        {
             foreach (var line in dic)
             {
                 var title = line.Key;
@@ -95,7 +124,6 @@ namespace QuizGame
                 var newQuiz = new Quiz(title, question, answerNumber, new List<string>() { answer1, answer2, answer3, answer4 });
                 quizs.Add(newQuiz);
             }
-            return quizs;
         }
 
         private void MakeQuizList()

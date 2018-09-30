@@ -17,7 +17,7 @@ namespace QuizGame
             return File.ReadAllText(filePath);
         }
 
-        public Dictionary<string, Dictionary<string, object>> ReadToDic(string file, bool keyAsRowercase = false)
+        public Dictionary<string, Dictionary<string, object>> ReadToDicFromFile(string file, bool keyAsRowercase = false)
         {
             var dic = new Dictionary<string, Dictionary<string, object>>();
             //validation
@@ -25,8 +25,19 @@ namespace QuizGame
             {
                 throw new Exception("그런 CSV파일은 없습니다." + file);
             }
+            string scvString = ReadText(file);
+            return MakeCSVDic(scvString, keyAsRowercase, dic);
+        }
 
-            var lines = Regex.Split(ReadText(file), _LINE_SPLIT_RE);
+        public Dictionary<string, Dictionary<string, object>> ReadToDicFromString(string csvString, bool keyAsRowercase = false)
+        {
+            var dic = new Dictionary<string, Dictionary<string, object>>();
+            return MakeCSVDic(csvString, keyAsRowercase, dic);
+        }
+
+        private static Dictionary<string, Dictionary<string, object>> MakeCSVDic(string scvString, bool keyAsRowercase, Dictionary<string, Dictionary<string, object>> dic)
+        {
+            var lines = Regex.Split(scvString, _LINE_SPLIT_RE);
 
             if (lines.Length <= 1) return dic;
 
@@ -53,7 +64,7 @@ namespace QuizGame
 
                 if (dic.ContainsKey(entry["title"].ToString().ToLower()))
                 {
-                    throw new Exception($"same key in file. key : {entry["title"].ToString()} in {file}");
+                    throw new Exception($"same key in file. key : {entry["title"].ToString()} in string");
                 }
 
                 if (keyAsRowercase)
