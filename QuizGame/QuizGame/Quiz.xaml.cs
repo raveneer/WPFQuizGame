@@ -63,10 +63,10 @@ namespace QuizGame
                 _currentQuiz = _quizList[_currentQuizIndex];
 
                 QuizTitle.Text = _currentQuiz.Question;
-                RadioAnswer1.Content = _currentQuiz.Answers[0];
-                RadioAnswer2.Content = _currentQuiz.Answers[1];
-                RadioAnswer3.Content = _currentQuiz.Answers[2];
-                RadioAnswer4.Content = _currentQuiz.Answers[3];
+                RadioAnswer1.Content = _currentQuiz.Answers[0].AnswerString;
+                RadioAnswer2.Content = _currentQuiz.Answers[1].AnswerString;
+                RadioAnswer3.Content = _currentQuiz.Answers[2].AnswerString;
+                RadioAnswer4.Content = _currentQuiz.Answers[3].AnswerString;
 
                 _currentQuizIndex++;
             }
@@ -139,30 +139,30 @@ namespace QuizGame
         private void RadioAnswer1_Checked(object sender, RoutedEventArgs e)
         {
             RadioAnswer1.IsChecked = true;
-            CheckQuiz(_currentQuiz, 1);
+            CheckQuiz(_currentQuiz, 0);
         }
 
         private void RadioAnswer2_Checked(object sender, RoutedEventArgs e)
         {
             RadioAnswer2.IsChecked = true;
-            CheckQuiz(_currentQuiz, 2);
+            CheckQuiz(_currentQuiz, 1);
         }
 
         private void RadioAnswer3_Checked(object sender, RoutedEventArgs e)
         {
             RadioAnswer3.IsChecked = true;
-            CheckQuiz(_currentQuiz, 3);
+            CheckQuiz(_currentQuiz, 2);
         }
 
         private void RadioAnswer4_Checked(object sender, RoutedEventArgs e)
         {
             RadioAnswer4.IsChecked = true;
-            CheckQuiz(_currentQuiz, 4);
+            CheckQuiz(_currentQuiz, 3);
         }
 
         private void CheckQuiz(Quiz currentQuiz, int i)
         {
-            if (currentQuiz.AnswerNumber == i)
+            if (currentQuiz.Answers[i].IsCorrect)
             {
                 MessageBox.Show("맞았습니다! ^_^");
             }
@@ -178,15 +178,51 @@ namespace QuizGame
     {
         public string Title { get; }
         public string Question { get; }
-        public int AnswerNumber { get; }
-        public List<string> Answers = new List<string>();
+        public List<Answer> Answers = new List<Answer>();
 
-        public Quiz(string title, string question, int answerNumber, List<string> answers)
+        public Quiz(string title, string question, int answerNumber, List<string> answerString)
         {
             Title = title;
             Question = question;
+
+            for (int i = 0; i < answerString.Count; i++)
+            {
+                var newAnswer = new Answer(i, answerString[i], i + 1 == answerNumber);
+                Answers.Add(newAnswer);
+            }
+            Answers.Shuffle();
+        }
+    }
+
+    public class Answer
+    {
+        public bool IsCorrect;
+        public string AnswerString;
+        public int AnswerNumber;
+
+        public Answer(int answerNumber, string answerString, bool isCorrect)
+        {
             AnswerNumber = answerNumber;
-            Answers = answers;
+            AnswerString = answerString;
+            IsCorrect = isCorrect;
+        }
+    }
+
+    public static class Extensions
+    {
+        private static Random rng = new Random();
+
+        public static void Shuffle<T>(this IList<T> list)
+        {
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
         }
     }
 }
