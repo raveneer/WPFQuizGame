@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Media;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 
 namespace QuizGame
@@ -28,6 +31,17 @@ namespace QuizGame
         private int _currentQuizIndex;
         private List<RadioButton> radioButtons = new List<RadioButton>();
 
+        private SoundPlayer _correctSound = new SoundPlayer();
+
+        private void InitSounds()
+        {
+            FileStream stream = File.Open(@"collect.wav", FileMode.Open);
+
+            _correctSound = new SoundPlayer(stream);
+            _correctSound.Load();
+            _correctSound.Play();
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -37,6 +51,8 @@ namespace QuizGame
 
             //GetQuizFromFile();
             GetQuizStringFromGoogleSpreadSheetWithCSV();
+
+            InitSounds();
         }
 
         private void BindRadioButtons()
@@ -164,11 +180,11 @@ namespace QuizGame
         {
             if (currentQuiz.Answers[i].IsCorrect)
             {
-                MessageBox.Show("맞았습니다! ^_^");
+                _correctSound.Play();
             }
             else
             {
-                MessageBox.Show("틀렸습니다. ㅠㅠ");
+                MessageBox.Show($"틀렸습니다. ㅠㅠ \r\n 정답은 {currentQuiz.GetAnswerNumber()} 입니다");
             }
             ShowNextQuiz();
         }
@@ -191,6 +207,11 @@ namespace QuizGame
                 Answers.Add(newAnswer);
             }
             Answers.Shuffle();
+        }
+
+        public int GetAnswerNumber()
+        {
+            return Answers.IndexOf(Answers.First(x => x.IsCorrect)) + 1;
         }
     }
 
