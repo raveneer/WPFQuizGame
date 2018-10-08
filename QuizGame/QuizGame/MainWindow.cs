@@ -52,8 +52,8 @@ namespace QuizGame
 
             if (_currentQuizIndex >= _quizList.Count)
             {
-                MessageBox.Show($"다 풀었습니다. 총 {_quizList.Count} 문제중 {_collectCount} 문제를 풀었습니다!!! 수고하셨어요!");
                 _completeSound.Play();
+                MessageBox.Show($"다 풀었습니다. 총 {_quizList.Count} 문제중 {_collectCount} 문제를 풀었습니다!!! 수고하셨어요!");
             }
             else
             {
