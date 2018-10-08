@@ -72,6 +72,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CSVReader.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="MainWindow.cs" />
     <Compile Include="Quiz.xaml.cs">
       <DependentUpon>Quiz.xaml</DependentUpon>
       <SubType>Code</SubType>
