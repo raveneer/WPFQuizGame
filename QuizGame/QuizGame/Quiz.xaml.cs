@@ -7,10 +7,12 @@ namespace QuizGame
     {
         public string Title { get; }
         public string Question { get; }
+        public string Link { get; set; }
+
         public List<Answer> Answers = new List<Answer>();
         private int _collectCount;
 
-        public Quiz(string title, string question, int answerNumber, List<string> answerString)
+        public Quiz(string title, string question, int answerNumber, List<string> answerString, string linkUrl)
         {
             Title = title;
             Question = question;
@@ -21,6 +23,7 @@ namespace QuizGame
                 Answers.Add(newAnswer);
             }
             Answers.Shuffle();
+            Link = linkUrl;
         }
 
         public int GetAnswerNumber()

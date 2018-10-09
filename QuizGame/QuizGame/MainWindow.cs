@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Media;
 using System.Net;
@@ -52,9 +53,9 @@ namespace QuizGame
             {
                 radioButton.IsChecked = false;
             }
-
             Description.Text = "";
             ResetAccentAnswer();
+            HideLinkButton();
 
             //다풀었음
             if (_currentQuizIndex >= _quizList.Count)
@@ -92,7 +93,8 @@ namespace QuizGame
                 var answer2 = line.Value["Answer2"].ToString();
                 var answer3 = line.Value["Answer3"].ToString();
                 var answer4 = line.Value["Answer4"].ToString();
-                var newQuiz = new Quiz(title, question, answerNumber, new List<string>() { answer1, answer2, answer3, answer4 });
+                var link = line.Value["Link1"].ToString();
+                var newQuiz = new Quiz(title, question, answerNumber, new List<string>() { answer1, answer2, answer3, answer4 }, link);
                 quizs.Add(newQuiz);
             }
         }
@@ -143,9 +145,27 @@ namespace QuizGame
             else
             {
                 _falseSound.Play();
-                Description.Text = $"틀렸습니다. ㅠㅠ \r\n 정답은 {currentQuiz.GetAnswerNumber()} 입니다";
+                Description.Text = $"틀렸습니다. ㅠㅠ ";
+
                 AccentAnswer(currentQuiz.GetAnswerNumber());
+                ShowLinkButton();
             }
+        }
+
+        private void ShowLinkButton()
+        {
+            if (string.IsNullOrEmpty(_currentQuiz.Link))
+            {
+                return;
+            }
+
+            HintButton.Visibility = Visibility.Visible;
+            HintButton.Content = _currentQuiz.Link;
+        }
+
+        private void HideLinkButton()
+        {
+            HintButton.Visibility = Visibility.Hidden;
         }
 
         private void AccentAnswer(int getAnswerNumber)
@@ -214,6 +234,12 @@ namespace QuizGame
             FileStream falseSoundStream = File.Open(@"false.wav", FileMode.Open);
             _falseSound = new SoundPlayer(falseSoundStream);
             _falseSound.Load();
+        }
+
+        private void HintButton_Click(object sender, RoutedEventArgs e)
+        {
+            Debug.Assert(!string.IsNullOrEmpty(_currentQuiz.Link));
+            System.Diagnostics.Process.Start($"{_currentQuiz.Link}");
         }
     }
 }

@@ -19,6 +19,7 @@
         <RadioButton x:Name="RadioAnswer2" Content="답안 2;" HorizontalAlignment="Left" Margin="23,162,0,0" VerticalAlignment="Top" Height="55" Width="583" FontSize="24" Grid.ColumnSpan="3" FontFamily="Gulim" Checked="RadioAnswer2_Checked" Grid.Column="1" />
         <RadioButton x:Name="RadioAnswer3" Content="답안 3" HorizontalAlignment="Left" Margin="23,217,0,0" VerticalAlignment="Top" Height="55" Width="583" FontSize="24" Grid.ColumnSpan="3" FontFamily="Gulim" Checked="RadioAnswer3_Checked" Grid.Column="1" />
         <RadioButton x:Name="RadioAnswer4" Content="답안 4" HorizontalAlignment="Left" Margin="23,277,0,0" VerticalAlignment="Top" Height="55" Width="583" FontSize="24" Grid.ColumnSpan="3" FontFamily="Gulim" Checked="RadioAnswer4_Checked" Grid.Column="1" Background="White" />
-        <TextBlock x:Name="Description" HorizontalAlignment="Left" Margin="22,331,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="78" Width="608" Grid.ColumnSpan="4" FontSize="24" ><Run Text="틀렸습니다! 정답은 어쩌고 입니다." /><LineBreak /><Run Text="링크 : 어쩌고 닷 컴" /></TextBlock>
+        <TextBlock x:Name="Description" HorizontalAlignment="Left" Margin="22,331,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="33" Width="608" Grid.ColumnSpan="4" FontSize="24" Text="틀렸습니다! 정답은 어쩌고 입니다." />
+        <Button x:Name="HintButton" Content="HintLik" HorizontalAlignment="Left" Margin="22,364,0,0" VerticalAlignment="Top" Width="608" Click="HintButton_Click" Height="40" FontSize="24" FontFamily="Gulim" Grid.ColumnSpan="4" Background="#FFFAFFC6" FlowDirection="RightToLeft" />
     </Grid>
 </Window>
