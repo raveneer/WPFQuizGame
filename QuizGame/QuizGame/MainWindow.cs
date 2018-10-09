@@ -47,31 +47,38 @@ namespace QuizGame
 
         private void ShowNextQuiz()
         {
+            //초기화
             foreach (var radioButton in radioButtons)
             {
                 radioButton.IsChecked = false;
             }
 
+            Description.Text = "";
+            ResetAccentAnswer();
+
+            //다풀었음
             if (_currentQuizIndex >= _quizList.Count)
             {
                 _completeSound.Play();
                 Description.Text = $"다 풀었습니다. 총 {_quizList.Count} 문제중 {_collectCount} 문제를 풀었습니다!!! 수고하셨어요!";
             }
+            //다음문제
             else
             {
                 _currentQuiz = _quizList[_currentQuizIndex];
-
-                QuizTitle.Text = _currentQuiz.Question;
-                RadioAnswer1.Content = _currentQuiz.Answers[0].AnswerString;
-                RadioAnswer2.Content = _currentQuiz.Answers[1].AnswerString;
-                RadioAnswer3.Content = _currentQuiz.Answers[2].AnswerString;
-                RadioAnswer4.Content = _currentQuiz.Answers[3].AnswerString;
-
                 _currentQuizIndex++;
-            }
 
-            Description.Text = "";
-            ResetAccentAnswer();
+                RefreshAnswers(_currentQuiz);
+            }
+        }
+
+        private void RefreshAnswers(Quiz quiz)
+        {
+            QuizTitle.Text = quiz.Question;
+            RadioAnswer1.Content = quiz.Answers[0].AnswerString;
+            RadioAnswer2.Content = quiz.Answers[1].AnswerString;
+            RadioAnswer3.Content = quiz.Answers[2].AnswerString;
+            RadioAnswer4.Content = quiz.Answers[3].AnswerString;
         }
 
         private void MakeQuizDic(List<Quiz> quizs, Dictionary<string, Dictionary<string, object>> dic)
@@ -93,6 +100,7 @@ namespace QuizGame
         private void MakeQuizList()
         {
             _quizList = GetQuizFromCSV();
+            _quizList.Shuffle();
         }
 
         private void NextQuizButton_Click(object sender, RoutedEventArgs e)
