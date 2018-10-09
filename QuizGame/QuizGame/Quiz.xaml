@@ -8,15 +8,17 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="96*" />
-            <ColumnDefinition Width="29*" />
-            <ColumnDefinition Width="139*" />
+            <ColumnDefinition Width="55*" />
+            <ColumnDefinition Width="233*" />
+            <ColumnDefinition Width="87*" />
+            <ColumnDefinition Width="417*" />
         </Grid.ColumnDefinitions>
-        <TextBlock x:Name="QuizTitle" HorizontalAlignment="Left" Margin="60,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="78" Width="709" Grid.ColumnSpan="3" FontSize="24" ><Run Text="Select a message option and then choose the Display button" /><Run Text="!" /><LineBreak /><Run /></TextBlock>
-        <RadioButton x:Name="RadioAnswer1" Content="답안 1" HorizontalAlignment="Left" Margin="78,107,0,0" VerticalAlignment="Top" Height="55" Width="583" FontSize="24" Grid.ColumnSpan="3" FontFamily="Gulim" Checked="RadioAnswer1_Checked" />
-        <Button x:Name="DisplayButton" Content="다음문제" HorizontalAlignment="Left" Margin="30,348,0,0" VerticalAlignment="Top" Width="116" Grid.Column="1" Click="NextQuizButton_Click" Grid.ColumnSpan="2" Height="40" FontSize="24" FontFamily="Gulim" />
-        <RadioButton x:Name="RadioAnswer2" Content="답안 2;" HorizontalAlignment="Left" Margin="78,162,0,0" VerticalAlignment="Top" Height="55" Width="583" FontSize="24" Grid.ColumnSpan="3" FontFamily="Gulim" Checked="RadioAnswer2_Checked" />
-        <RadioButton x:Name="RadioAnswer3" Content="답안 3" HorizontalAlignment="Left" Margin="78,217,0,0" VerticalAlignment="Top" Height="55" Width="583" FontSize="24" Grid.ColumnSpan="3" FontFamily="Gulim" Checked="RadioAnswer3_Checked" />
-        <RadioButton x:Name="RadioAnswer4" Content="답안 4" HorizontalAlignment="Left" Margin="78,277,0,0" VerticalAlignment="Top" Height="55" Width="583" FontSize="24" Grid.ColumnSpan="3" FontFamily="Gulim" Checked="RadioAnswer4_Checked" />
+        <TextBlock x:Name="QuizTitle" HorizontalAlignment="Left" Margin="5,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="78" Width="709" Grid.ColumnSpan="3" FontSize="24" Grid.Column="1" ><Run Text="Select a message option and then choose the Display button" /><Run Text="!" /><LineBreak /><Run /></TextBlock>
+        <RadioButton x:Name="RadioAnswer1" Content="답안 1" HorizontalAlignment="Left" Margin="23,107,0,0" VerticalAlignment="Top" Height="55" Width="583" FontSize="24" Grid.ColumnSpan="3" FontFamily="Gulim" Checked="RadioAnswer1_Checked" Grid.Column="1" />
+        <Button x:Name="NextQuizButton" Content="다음문제" HorizontalAlignment="Left" Margin="278,337,0,0" VerticalAlignment="Top" Width="116" Grid.Column="3" Click="NextQuizButton_Click" Height="40" FontSize="24" FontFamily="Gulim" />
+        <RadioButton x:Name="RadioAnswer2" Content="답안 2;" HorizontalAlignment="Left" Margin="23,162,0,0" VerticalAlignment="Top" Height="55" Width="583" FontSize="24" Grid.ColumnSpan="3" FontFamily="Gulim" Checked="RadioAnswer2_Checked" Grid.Column="1" />
+        <RadioButton x:Name="RadioAnswer3" Content="답안 3" HorizontalAlignment="Left" Margin="23,217,0,0" VerticalAlignment="Top" Height="55" Width="583" FontSize="24" Grid.ColumnSpan="3" FontFamily="Gulim" Checked="RadioAnswer3_Checked" Grid.Column="1" />
+        <RadioButton x:Name="RadioAnswer4" Content="답안 4" HorizontalAlignment="Left" Margin="23,277,0,0" VerticalAlignment="Top" Height="55" Width="583" FontSize="24" Grid.ColumnSpan="3" FontFamily="Gulim" Checked="RadioAnswer4_Checked" Grid.Column="1" Background="White" />
+        <TextBlock x:Name="Description" HorizontalAlignment="Left" Margin="22,331,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="78" Width="608" Grid.ColumnSpan="4" FontSize="24" ><Run Text="틀렸습니다! 정답은 어쩌고 입니다." /><LineBreak /><Run Text="링크 : 어쩌고 닷 컴" /></TextBlock>
     </Grid>
 </Window>

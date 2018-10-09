@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace QuizGame
 {
@@ -20,6 +21,7 @@ namespace QuizGame
         private List<RadioButton> radioButtons = new List<RadioButton>();
         private SoundPlayer _correctSound = new SoundPlayer();
         private SoundPlayer _completeSound = new SoundPlayer();
+        private SoundPlayer _falseSound = new SoundPlayer();
         private int _collectCount;
 
         public MainWindow()
@@ -53,7 +55,7 @@ namespace QuizGame
             if (_currentQuizIndex >= _quizList.Count)
             {
                 _completeSound.Play();
-                MessageBox.Show($"다 풀었습니다. 총 {_quizList.Count} 문제중 {_collectCount} 문제를 풀었습니다!!! 수고하셨어요!");
+                Description.Text = $"다 풀었습니다. 총 {_quizList.Count} 문제중 {_collectCount} 문제를 풀었습니다!!! 수고하셨어요!";
             }
             else
             {
@@ -67,6 +69,9 @@ namespace QuizGame
 
                 _currentQuizIndex++;
             }
+
+            Description.Text = "";
+            ResetAccentAnswer();
         }
 
         private void MakeQuizDic(List<Quiz> quizs, Dictionary<string, Dictionary<string, object>> dic)
@@ -125,12 +130,47 @@ namespace QuizGame
             {
                 _correctSound.Play();
                 _collectCount++;
+                ShowNextQuiz();
             }
             else
             {
-                MessageBox.Show($"틀렸습니다. ㅠㅠ \r\n 정답은 {currentQuiz.GetAnswerNumber()} 입니다");
+                _falseSound.Play();
+                Description.Text = $"틀렸습니다. ㅠㅠ \r\n 정답은 {currentQuiz.GetAnswerNumber()} 입니다";
+                AccentAnswer(currentQuiz.GetAnswerNumber());
             }
-            ShowNextQuiz();
+        }
+
+        private void AccentAnswer(int getAnswerNumber)
+        {
+            switch (getAnswerNumber)
+            {
+                case 1:
+                    RadioAnswer1.Foreground = Brushes.Red;
+                    break;
+
+                case 2:
+                    RadioAnswer2.Foreground = Brushes.Red;
+                    break;
+
+                case 3:
+                    RadioAnswer3.Foreground = Brushes.Red;
+                    break;
+
+                case 4:
+                    RadioAnswer4.Foreground = Brushes.Red;
+                    break;
+
+                default:
+                    throw new Exception();
+            }
+        }
+
+        private void ResetAccentAnswer()
+        {
+            RadioAnswer1.Foreground = Brushes.Black;
+            RadioAnswer2.Foreground = Brushes.Black;
+            RadioAnswer3.Foreground = Brushes.Black;
+            RadioAnswer4.Foreground = Brushes.Black;
         }
 
         private string GetQuizStringFromGoogleSpreadSheetWithCSV()
@@ -162,6 +202,10 @@ namespace QuizGame
             FileStream completeSoundStream = File.Open(@"complete.wav", FileMode.Open);
             _completeSound = new SoundPlayer(completeSoundStream);
             _completeSound.Load();
+
+            FileStream falseSoundStream = File.Open(@"false.wav", FileMode.Open);
+            _falseSound = new SoundPlayer(falseSoundStream);
+            _falseSound.Load();
         }
     }
 }
