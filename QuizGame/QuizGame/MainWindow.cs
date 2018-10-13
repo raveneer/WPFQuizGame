@@ -24,6 +24,8 @@ namespace QuizGame
         private SoundPlayer _completeSound = new SoundPlayer();
         private SoundPlayer _falseSound = new SoundPlayer();
         private int _collectCount;
+        private int _falseCount;
+        private bool _isCurrentQuizAnswered;
 
         public MainWindow()
         {
@@ -36,6 +38,12 @@ namespace QuizGame
             GetQuizStringFromGoogleSpreadSheetWithCSV();
 
             InitSounds();
+            RefreshStatusText();
+        }
+
+        private void RefreshStatusText()
+        {
+            PlayStatus.Text = $"남음: {_quizList.Count - _collectCount - _falseCount}\r\n맞음: {_collectCount}\r\n틀림: {_falseCount}";
         }
 
         private void BindRadioButtons()
@@ -49,6 +57,8 @@ namespace QuizGame
         private void ShowNextQuiz()
         {
             //초기화
+            _isCurrentQuizAnswered = false;
+
             foreach (var radioButton in radioButtons)
             {
                 radioButton.IsChecked = false;
@@ -66,16 +76,18 @@ namespace QuizGame
             //다음문제
             else
             {
-                _currentQuiz = _quizList[_currentQuizIndex];
                 _currentQuizIndex++;
-
+                _currentQuiz = _quizList[_currentQuizIndex];
                 RefreshAnswers(_currentQuiz);
             }
+
+            RefreshStatusText();
         }
 
         private void RefreshAnswers(Quiz quiz)
         {
             QuizTitle.Text = quiz.Question;
+            QuizNumber.Text = $"No.{_currentQuizIndex}";
             RadioAnswer1.Content = quiz.Answers[0].AnswerString;
             RadioAnswer2.Content = quiz.Answers[1].AnswerString;
             RadioAnswer3.Content = quiz.Answers[2].AnswerString;
@@ -138,15 +150,24 @@ namespace QuizGame
         {
             if (currentQuiz.Check(i))
             {
+                if (!_isCurrentQuizAnswered)
+                {
+                    _collectCount++;
+                    _isCurrentQuizAnswered = true;
+                }
                 _correctSound.Play();
-                _collectCount++;
                 ShowNextQuiz();
             }
             else
             {
+                if (!_isCurrentQuizAnswered)
+                {
+                    _falseCount++;
+                    _isCurrentQuizAnswered = true;
+                }
+
                 _falseSound.Play();
                 Description.Text = $"틀렸습니다. ㅠㅠ ";
-
                 AccentAnswer(currentQuiz.GetAnswerNumber());
                 ShowLinkButton();
             }

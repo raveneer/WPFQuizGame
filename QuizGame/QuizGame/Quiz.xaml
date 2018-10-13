@@ -15,11 +15,13 @@
         </Grid.ColumnDefinitions>
         <TextBlock x:Name="QuizTitle" HorizontalAlignment="Left" Margin="5,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="78" Width="709" Grid.ColumnSpan="3" FontSize="24" Grid.Column="1" ><Run Text="Select a message option and then choose the Display button" /><Run Text="!" /><LineBreak /><Run /></TextBlock>
         <RadioButton x:Name="RadioAnswer1" Content="답안 1" HorizontalAlignment="Left" Margin="23,107,0,0" VerticalAlignment="Top" Height="55" Width="583" FontSize="24" Grid.ColumnSpan="3" FontFamily="Gulim" Checked="RadioAnswer1_Checked" Grid.Column="1" />
-        <Button x:Name="NextQuizButton" Content="다음문제" HorizontalAlignment="Left" Margin="278,337,0,0" VerticalAlignment="Top" Width="116" Grid.Column="3" Click="NextQuizButton_Click" Height="40" FontSize="24" FontFamily="Gulim" />
+        <Button x:Name="NextQuizButton" Content="다음문제" HorizontalAlignment="Left" Margin="278,364,0,0" VerticalAlignment="Top" Width="116" Grid.Column="3" Click="NextQuizButton_Click" Height="40" FontSize="24" FontFamily="Gulim" />
         <RadioButton x:Name="RadioAnswer2" Content="답안 2;" HorizontalAlignment="Left" Margin="23,162,0,0" VerticalAlignment="Top" Height="55" Width="583" FontSize="24" Grid.ColumnSpan="3" FontFamily="Gulim" Checked="RadioAnswer2_Checked" Grid.Column="1" />
         <RadioButton x:Name="RadioAnswer3" Content="답안 3" HorizontalAlignment="Left" Margin="23,217,0,0" VerticalAlignment="Top" Height="55" Width="583" FontSize="24" Grid.ColumnSpan="3" FontFamily="Gulim" Checked="RadioAnswer3_Checked" Grid.Column="1" />
         <RadioButton x:Name="RadioAnswer4" Content="답안 4" HorizontalAlignment="Left" Margin="23,277,0,0" VerticalAlignment="Top" Height="55" Width="583" FontSize="24" Grid.ColumnSpan="3" FontFamily="Gulim" Checked="RadioAnswer4_Checked" Grid.Column="1" Background="White" />
         <TextBlock x:Name="Description" HorizontalAlignment="Left" Margin="22,331,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="33" Width="608" Grid.ColumnSpan="4" FontSize="24" Text="틀렸습니다! 정답은 어쩌고 입니다." />
         <Button x:Name="HintButton" Content="HintLik" HorizontalAlignment="Left" Margin="22,364,0,0" VerticalAlignment="Top" Width="608" Click="HintButton_Click" Height="40" FontSize="24" FontFamily="Gulim" Grid.ColumnSpan="4" Background="#FFFAFFC6" FlowDirection="RightToLeft" />
+        <TextBlock x:Name="QuizNumber" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="78" Width="45" FontSize="24" ><Run Text="11" /><Run Text="." /></TextBlock>
+        <TextBlock x:Name="PlayStatus" HorizontalAlignment="Left" Margin="278,293,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="57" Width="116" FontSize="15" Grid.Column="3" TextAlignment="Center" ><Run Text="남음 : 999" /><LineBreak /><Run Text="맞음 : 11" /><LineBreak /><Run Text="틀림 : 11" /></TextBlock>
     </Grid>
 </Window>
